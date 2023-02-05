@@ -1,0 +1,102 @@
+
+main:
+  params: [event]
+  steps:
+    - init:
+        assign:
+          - project_id: ${sys.get_env("sterndeck-4")}
+          - secret_id: "OPENAI_API_KEY"
+    - decode_message:
+        assign:
+          - base64: ${base64.decode(event.data.message.data)}
+          - message: ${json.decode(base64)}
+    - access_secret:
+        call: googleapis.secretmanager.v1.projects.secrets.versions.accessString
+        args:
+          secret_id: ${secret_id}
+          project_id: ${project_id}
+        result: str_secret
+    - get_finetune_events:
+        call: http.get
+        args:
+          url: ${"https://api.openai.com/v1/fine-tunes/" + message.fineTuneId + "/events"}
+          headers:
+            Authorization: ${"Bearer " + str_secret  }
+        result: response
+    - init_variables:
+        assign:
+          - collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/fine_tunes/" + message.fineTuneId}
+          - values_to_write:
+              events:
+                ArrayValue: ${response.body.data}
+    - write_to_firestore:
+        call: googleapis.firestore.v1.projects.databases.documents.patch
+        args:
+          name: ${"projects/" + project_id + "/databases/(default)/documents/" + collection }
+          body:
+            fields: ${values_to_write}
+        result: write_result
+    - last:
+        return: ${write_result.name}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+main:
+  params: [event]
+  steps:
+    - init:
+        assign:
+          - project_id: ${sys.get_env("sterndeck-4")}
+          - secret_id: "OPENAI_API_KEY"
+    - decode_message:
+        assign:
+          - base64: ${base64.decode(event.data.message.data)}
+          - message: ${text.decode(base64)}
+    - access_secret:
+        call: googleapis.secretmanager.v1.projects.secrets.versions.accessString
+        args:
+          secret_id: ${secret_id}
+          project_id: ${project_id}
+        result: str_secret
+    - get_finetune_events:
+        call: http.get
+        args:
+          url: ${"https://api.openai.com/v1/fine-tunes/" + message + "/events"}
+          headers:
+            Authorization: ${"Bearer " + str_secret  }
+        result: response
+    - init_variables:
+        assign:
+          - project: ${sys.get_env("sterndeck-4")}
+          - collection: ${"models/*/list/*/"+}
+          - document: "events"
+          - values_to_write:
+              events:
+                ArrayValue: ${response.body.data}
+    - write_to_firestore:
+        call: googleapis.firestore.v1.projects.databases.documents.patch
+        args:
+          name: ${"projects/"+project+"/databases/(default)/documents/"+collection+"/"+document}
+          body:
+            fields: ${values_to_write}
+        result: write_result
+    - last:
+        return: ${write_result.name}
+
+    - return_value:
+        return: ${response}

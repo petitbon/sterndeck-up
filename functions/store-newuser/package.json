@@ -1,0 +1,7 @@
+{
+  "name": "users",
+  "version": "0.0.1",
+  "dependencies": {
+    "firebase-admin": "^10.0.2"
+  }
+}

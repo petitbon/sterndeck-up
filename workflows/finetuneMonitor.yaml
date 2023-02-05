@@ -1,0 +1,59 @@
+main:
+  params: [event]
+  steps:
+    - init:
+        assign:
+          - project_id: ${sys.get_env("sterndeck-4")}
+          - secret_id: "OPENAI_API_KEY"
+          - latest_message: ""
+          - base64: ${base64.decode(event.data.message.data)}
+          - message: ${json.decode(base64)}
+    - access_secret:
+        call: googleapis.secretmanager.v1.projects.secrets.versions.accessString
+        args:
+          secret_id: ${secret_id}
+          project_id: ${project_id}
+        result: str_secret
+    - waitandsee:
+        steps:
+          - get_events:
+              call: http.get
+              args:
+                url: ${"https://api.openai.com/v1/fine-tunes/" + message.fineTuneId + "/events"}
+                headers:
+                  Authorization: ${"Bearer " + str_secret  }
+              result: response
+          - init_variables:
+              assign:
+                - latest_message: ${response.body.data[len(response.body.data) - 1].message}
+                - path: ${"models/" + message.userUid + "/list/" + message.modelId + "/fine_tunes/" + message.fineTuneId + "/events/update"}
+          - write_to_firestore:
+              call: googleapis.firestore.v1.projects.databases.documents.patch
+              args:
+                name: ${"projects/sterndeck-4/databases/(default)/documents/" + path }
+                body:
+                  fields:
+                    latestMessage:
+                      stringValue: ${response.body.data[len(response.body.data) - 1].message}
+              result: write_result
+    - switch_and_repeat:
+        switch:
+          - condition: ${latest_message == "Fine-tune succeeded"}
+            steps:
+              - finishit:
+                  call: http.post
+                  args:
+                    url: https://us-central1-sterndeck-4.cloudfunctions.net/update-finetune
+                    headers:
+                      Content-Type: "application/json"
+                    body:
+                      finetuneid: ${message.fineTuneId}
+                      collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/fine_tunes"}
+                  result: the_result
+              - fin:
+                  return: '${"finetuneid: " + message.fineTuneId + " latestmessage: " +  latest_message }'
+    - wait:
+        call: sys.sleep
+        args:
+          seconds: 30
+        next: waitandsee
