@@ -2,7 +2,7 @@
   "name": "users",
   "version": "0.0.1",
   "scripts": {
-    "start": "npx functions-framework --target=updateFinetune --env-vars-file .env.yaml "
+    "start": "npx functions-framework --target=updateFinetune"
   },
   "dependencies": {
     "@google-cloud/secret-manager": "^4.2.0",

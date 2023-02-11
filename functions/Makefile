@@ -1,5 +1,5 @@
 update:
-	gcloud functions deploy update-finetune --runtime "nodejs18" --trigger-service-account "sa-workflow@sterndeck-4.iam.gserviceaccount.com" --trigger-http  --entry-point "updateFinetune" --source "./update-finetune" --env-vars-file "./update-finetune/.env.yaml"
+	gcloud functions deploy update-finetune --gen2 --runtime "nodejs18" --trigger-http  --entry-point "updateFinetune" --source "./update-finetune" --env-vars-file "./update-finetune/.env.yaml" 
 
 store:
 	gcloud functions deploy store-newuser --runtime "nodejs18" --trigger-event "providers/firebase.auth/eventTypes/user.create"  --entry-point "newUser" --source "./store-newuser"

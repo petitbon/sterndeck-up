@@ -43,12 +43,14 @@ main:
               - finishit:
                   call: http.post
                   args:
-                    url: https://us-central1-sterndeck-4.cloudfunctions.net/update-finetune
+                    url: https://update-finetune-i5rcwtaovq-uc.a.run.app
                     headers:
                       Content-Type: "application/json"
                     body:
                       finetuneid: ${message.fineTuneId}
                       collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/fine_tunes"}
+                    auth:
+                      type: OIDC
                   result: the_result
               - fin:
                   return: '${"finetuneid: " + message.fineTuneId + " latestmessage: " +  latest_message }'
