@@ -1,0 +1,26 @@
+ swagger: "2.0"
+    info:
+      title: v1
+      description: "Get the completion."
+      version: "1.0.0"
+    host: dev.sterndeck.com 
+    schemes:
+      - "https"
+    paths:
+      "api/sterndeck/completion":
+        post:
+          description: "post completion."
+          operationId: "id"
+          parameters:
+            -
+              name: id
+              in: query
+              required: true
+              type: string
+          responses:
+            200:
+              description: "Success."
+              schema:
+                type: string
+            400:
+              description: "The code is invalid or missing."
