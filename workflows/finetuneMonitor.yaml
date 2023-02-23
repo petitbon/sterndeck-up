@@ -26,7 +26,7 @@ main:
           - init_variables:
               assign:
                 - latest_message: ${response.body.data[len(response.body.data) - 1].message}
-                - path: ${"models/" + message.userUid + "/list/" + message.modelId + "/fine_tunes/" + message.fineTuneId + "/events/update"}
+                - path: ${"models/" + message.userUid + "/list/" + message.modelId + "/events/" + message.fineTuneId}
           - write_to_firestore:
               call: googleapis.firestore.v1.projects.databases.documents.patch
               args:

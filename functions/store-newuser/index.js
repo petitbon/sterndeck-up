@@ -1,3 +1,5 @@
+// on new user registration
+
 const firebase = require("firebase-admin");
 
 firebase.initializeApp();

@@ -1,3 +1,6 @@
+// triggered by workflow
+//
+
 const fetch = require("node-fetch");
 const firebase = require("firebase-admin");
 const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");

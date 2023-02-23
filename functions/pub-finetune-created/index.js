@@ -1,3 +1,5 @@
+// on fine_tune document created send pubsub message
+
 const { PubSub } = require("@google-cloud/pubsub");
 
 const topicName = "finetunecreated";
