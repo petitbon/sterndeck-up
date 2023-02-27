@@ -1,0 +1,23 @@
+{
+  "name": "completion",
+  "version": "0.0.1",
+  "private": true,
+  "author": "you",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "test": "mocha test/*.test.js --timeout=60000"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "sinon": "^15.0.0"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.3",
+    "@google-cloud/secret-manager": "^4.2.0",
+    "escape-html": "^1.0.3",
+    "gcp-metadata": "^5.2.0",
+    "node-fetch": "^2.6.6"
+  }
+}

@@ -1,3 +1,9 @@
+comp:
+	gcloud functions deploy completion --gen2 --runtime=nodejs18 --region=us-central1 --source=./completion --entry-point=completion --trigger-http --allow-unauthenticated
+
+functest:
+	gcloud functions deploy nodejs-http-function --gen2 --runtime=nodejs18 --region=us-central1 --source=./helloworldGet --entry-point=helloContent --trigger-http --allow-unauthenticated
+
 update:
 	gcloud functions deploy update-finetune --gen2 --runtime "nodejs18" --trigger-http  --entry-point "updateFinetune" --source "./update-finetune" --env-vars-file "./update-finetune/.env.yaml" 
 
