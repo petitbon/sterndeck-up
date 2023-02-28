@@ -11,7 +11,7 @@ const functions = require("@google-cloud/functions-framework");
  * @param {Object} req Cloud Function request context.
  * @param {Object} res Cloud Function response context.
  */
-functions.http("helloContent", (req, res) => {
+functions.http("hello", (req, res) => {
   let name;
 
   switch (req.get("content-type")) {

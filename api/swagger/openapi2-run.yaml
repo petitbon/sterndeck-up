@@ -1,18 +1,15 @@
-# openapi2-run.yaml
 swagger: "2.0"
 info:
   title: sterndeck-4
-  description: Sample API on API Gateway with a Cloud Run backend
-  version: 1.0.0
+  version: "1.0.0"
+host: api-dev.sterndeck.com
 schemes:
   - https
-produces:
-  - application/json
-x-google-backend:
-  address: https://completion-i5rcwtaovq-uc.a.run.app
 paths:
   /:
     post:
+      summary: "completion"
+      operationId: modelCompletion
       consumes:
         - application/json
       produces:
@@ -22,16 +19,15 @@ paths:
           in: body
           required: true
           schema:
-            # Body schema with atomic property examples
             type: object
             properties:
               model:
                 type: string
               prompt:
                 type: string
-      operationId: getAsset
       responses:
         200:
-          description: "200 response"
-          examples:
-            application/json: { "status": "Success" }
+          description: "completion"
+      x-google-backend:
+        address: "https://completion-i5rcwtaovq-uc.a.run.app"
+        disable_auth: true
