@@ -1,5 +1,7 @@
 curl -m 70 -X POST https://hello-i5rcwtaovq-uc.a.run.app -H "Authorization: bearer $(gcloud auth print-identity-token)" -H "Content-Type: application/json" -d '{"name": "JLP"}'
 
 
-
 curl -m 70 -X POST https://sterndeck-api-gateway-4-1hyig73l.uc.gateway.dev -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImY4NzZiNzIxNDAwYmZhZmEyOWQ0MTFmZTYwODE2YmRhZWMyM2IzODIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiam9obmxvdWlzIHBldGl0Ym9uIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FFZEZUcDZJbG96UXhDZXEzZmdKY1ZnUlA2aGluME1mQmJSallwUFlqRVhPPXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3N0ZXJuZGVjay00IiwiYXVkIjoic3Rlcm5kZWNrLTQiLCJhdXRoX3RpbWUiOjE2Nzc1Nzk0NzIsInVzZXJfaWQiOiJEaVg4alQ1VFVMUFN2WGVtaGJYOG5IUk9YZmkyIiwic3ViIjoiRGlYOGpUNVRVTFBTdlhlbWhiWDhuSFJPWGZpMiIsImlhdCI6MTY3NzU5MzAwNSwiZXhwIjoxNjc3NTk2NjA1LCJlbWFpbCI6InBldGl0Ym9uQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTAyMjMwNjE1OTU1MTc0MzQ2MjQyIl0sImVtYWlsIjpbInBldGl0Ym9uQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.W9hsr2aj4vlMALqskX5385tJnEO65XT7vWd1xsi2FNjpIGVd4Pbhh_I-5ri7iZ6mev5v5o7nXUI3Cx5vxzmBzGLBG8ZE6mXr2MHOI02pzv9HSYIUm-b9S2N-_ecLjKvVoMQ8ODnrUy3LD5SadrXvhDexR4lH9q4uXQrv6vjO65Y5a4laexrCiMKXKbO-AMLaAlvQ6nObdOq6Igv9I0RU1YjDMXHoHq_G39yEJomQxaGlWMy7rxCLz8vRl-SYdfUixAUkgG26PyE3vKim0jQGQ89PcJ6TJT-k6msQxC_qUJ3IBP26iIeZevKbEQavgQEcANtBHXGA8rxMm-CD3d16Zg" -H "Content-Type: application/json" -d '{"model": "ada:ft-tunedmodels-2023-02-22-12-54-48", "prompt": "Grow product membership in Europe."}'
+
+
+##

@@ -1,0 +1,63 @@
+swagger: "2.0"
+info:
+  title: sterndeck-4
+  version: "1.0.0"
+host: api-dev.sterndeck.com
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /api/v1/completion:
+    post:
+      summary: "completion"
+      operationId: modelCompletion
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              model:
+                type: string
+              prompt:
+                type: string
+      responses:
+        200:
+          description: "completion"
+      x-google-backend:
+        address: "https://completion-i5rcwtaovq-uc.a.run.app"
+  /api/v1/completion-firebase:
+    post:
+      summary: "completion-firebase"
+      operationId: modelCompletionFirebase
+      security:
+        - firebase: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              model:
+                type: string
+              prompt:
+                type: string
+      responses:
+        200:
+          description: "completion-firebase"
+      x-google-backend:
+        address: "https://completion-i5rcwtaovq-uc.a.run.app"
+
+securityDefinitions:
+  firebase:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://securetoken.google.com/sterndeck-4"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "sterndeck-4"
