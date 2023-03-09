@@ -4,7 +4,7 @@ const firebase = require("firebase-admin");
 
 firebase.initializeApp();
 
-exports.newUser = async (user) => {
+exports.storeNewUser = async (user) => {
   const firestore = firebase.firestore();
 
   return firestore.collection("users").doc(user.uid).set({

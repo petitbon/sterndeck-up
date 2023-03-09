@@ -1,4 +1,5 @@
-// triggered by workflow
+//
+// this function is triggered by the finetune workflow
 //
 
 const fetch = require("node-fetch");
@@ -16,18 +17,17 @@ async function getSecret(name) {
 }
 
 exports.updateFinetune = async (req, res) => {
-  let updated_finetune;
-
-  const mysec = process.env.PROJECT_ID || "117456302577";
-
-  if (!mysec) {
-    res.status(500).send(`PROJECT_ID environment variable not set.`);
+  const myPID = process.env.PROJECT_ID;
+  const my_key = await getSecret(
+    `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
+  );
+  const myKEY = my_key || process.env.OPENAI_API_KEY;
+  if (!myPID || !myKEY) {
+    res.status(500).send(`Environment variables are not set.`);
     return;
   }
 
-  const myp = await getSecret(
-    `projects/${mysec}/secrets/OPENAI_API_KEY/versions/1`
-  );
+  let updated_finetune;
 
   if (req.method === "POST") {
     switch (req.get("content-type")) {
@@ -36,7 +36,7 @@ exports.updateFinetune = async (req, res) => {
           `https://api.openai.com/v1/fine-tunes/${req.body.finetuneid}`,
           {
             headers: {
-              Authorization: `Bearer ${myp}`,
+              Authorization: `Bearer ${myKEY}`,
             },
           }
         );

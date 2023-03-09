@@ -6,7 +6,7 @@ const topicName = "finetunecreated";
 
 const pubsub = new PubSub();
 
-exports.pubFinetuneCreated = async (event, context) => {
+exports.publishFinetune = async (event, context) => {
   const topic = pubsub.topic(topicName);
   const [exists] = await topic.exists();
   if (!exists) {

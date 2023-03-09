@@ -2,9 +2,7 @@
 
 // [START functions_http_content]
 
-const gcpMetadata = require("gcp-metadata");
 const fetch = require("node-fetch");
-const escapeHtml = require("escape-html");
 const functions = require("@google-cloud/functions-framework");
 const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");
 
@@ -17,12 +15,7 @@ async function getSecret(name) {
 }
 
 functions.http("completion", async (req, res) => {
-  const isAvailable = await gcpMetadata.isAvailable();
-  let projectId;
-  if (isAvailable) {
-    projectId = await gcpMetadata.project("project-id");
-  }
-  const myPID = projectId || process.env.PROJECT_ID;
+  const myPID = process.env.PROJECT_ID;
   const my_key = await getSecret(
     `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
   );

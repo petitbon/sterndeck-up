@@ -1,16 +1,17 @@
+make-event-finetune-create:
+	gcloud functions deploy event-finetune-create --trigger-event "providers/cloud.firestore/eventTypes/document.create" --trigger-resource=projects/sterndeck-4/databases/\(default\)/documents/models/{userUid}/list/{modelId}/fine_tunes/{fineTuneId} --entry-point "publishFinetune" --runtime "nodejs18" --source "./event-finetune-create"
 
-newuser:
-	gcloud functions deploy store-newuser --runtime "nodejs18" --trigger-event "providers/firebase.auth/eventTypes/user.create"  --entry-point "newUser" --source "./store-newuser"
+make-event-user-create:
+	gcloud functions deploy event-user-create --trigger-event "providers/firebase.auth/eventTypes/user.create" --entry-point "storeNewUser" --runtime "nodejs18" --source "./event-user-create"
 
-h: 
-	gcloud functions deploy hello --gen2 --runtime=nodejs18 --region=us-central1 --source=./hello --entry-point=hello --trigger-http
+make-http-completion:
+	gcloud functions deploy http-completion --gen2 --trigger-http --source=./http-completion --entry-point=completion  --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_ID=117456302577
 
-comp:
-	gcloud functions deploy completion --gen2 --runtime=nodejs18 --region=us-central1 --source=./completion --entry-point=completion --trigger-http
+make-http-csv-upload:
+	gcloud functions deploy http-csv-upload --gen2 --trigger-http --source=./http-csv-upload --entry-point=upload --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_ID=sterndeck-4
 
-update:
-	gcloud functions deploy update-finetune --gen2 --runtime "nodejs18" --trigger-http  --entry-point "updateFinetune" --source "./update-finetune" --env-vars-file "./update-finetune/.env.yaml" 
+make-http-hello:
+	gcloud functions deploy http-hello --gen2 --trigger-http --source=./http-hello --entry-point=hello --runtime=nodejs18 --region=us-central1
 
-
-pub:
-	gcloud functions deploy pub-finetune-created --runtime=nodejs18 --trigger-event=providers/cloud.firestore/eventTypes/document.create --trigger-resource=projects/sterndeck-4/databases/\(default\)/documents/models/{userUid}/list/{modelId}/fine_tunes/{fineTuneId} --entry-point "pubFinetuneCreated" --source "./pub-finetune-created"
+make-http-update-finetune:
+	gcloud functions deploy http-update-finetune --gen2 --trigger-http --source "./http-update-finetune" --entry-point "updateFinetune" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577

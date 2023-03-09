@@ -43,7 +43,7 @@ main:
               - finishit:
                   call: http.post
                   args:
-                    url: https://update-finetune-i5rcwtaovq-uc.a.run.app
+                    url: https://http-update-finetune-i5rcwtaovq-uc.a.run.app
                     headers:
                       Content-Type: "application/json"
                     body:
@@ -57,5 +57,5 @@ main:
     - wait:
         call: sys.sleep
         args:
-          seconds: 30
+          seconds: 60
         next: waitandsee
