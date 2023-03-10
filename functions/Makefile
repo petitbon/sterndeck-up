@@ -8,7 +8,7 @@ make-http-completion:
 	gcloud functions deploy http-completion --gen2 --trigger-http --source=./http-completion --entry-point=completion  --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_ID=117456302577
 
 make-http-csv-upload:
-	gcloud functions deploy http-csv-upload --gen2 --trigger-http --source=./http-csv-upload --entry-point=upload --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_ID=sterndeck-4
+	gcloud functions deploy http-csv-upload --gen2 --trigger-http --source=./http-csv-upload --entry-point=upload --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_NAME=sterndeck-4
 
 make-http-hello:
 	gcloud functions deploy http-hello --gen2 --trigger-http --source=./http-hello --entry-point=hello --runtime=nodejs18 --region=us-central1

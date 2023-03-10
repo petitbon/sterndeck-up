@@ -9,11 +9,21 @@ produces:
   - application/json
 consumes:
   - application/json
+security:
+  - firebase: []
+securityDefinitions:
+  firebase:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://securetoken.google.com/sterndeck-4"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "sterndeck-4"
 paths:
   /api/v1/completion:
     post:
       summary: "completion"
-      operationId: modelCompletion
+      operationId: completion
       parameters:
         - name: body
           in: body
@@ -29,35 +39,32 @@ paths:
         200:
           description: "completion"
       x-google-backend:
-        address: "https://completion-i5rcwtaovq-uc.a.run.app"
-  /api/v1/completion-firebase:
+        address: "https://http-completion-i5rcwtaovq-uc.a.run.app"
+  /api/v1/upload:
     post:
-      summary: "completion-firebase"
-      operationId: modelCompletionFirebase
-      security:
-        - firebase: []
+      summary: "upload"
+      operationId: upload
+      consumes:
+        - multipart/form-data
       parameters:
-        - name: body
-          in: body
+        - in: formData
+          name: upload
+          type: string
           required: true
-          schema:
-            type: object
-            properties:
-              model:
-                type: string
-              prompt:
-                type: string
+        - in: formData
+          name: model_id
+          type: string
+          required: true
+        - in: formData
+          name: user_uid
+          type: string
+          required: true
+        - in: formData
+          name: file_id
+          type: string
+          required: true
       responses:
         200:
-          description: "completion-firebase"
+          description: "upload"
       x-google-backend:
-        address: "https://completion-i5rcwtaovq-uc.a.run.app"
-
-securityDefinitions:
-  firebase:
-    authorizationUrl: ""
-    flow: "implicit"
-    type: "oauth2"
-    x-google-issuer: "https://securetoken.google.com/sterndeck-4"
-    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
-    x-google-audiences: "sterndeck-4"
+        address: "https://http-csv-upload-i5rcwtaovq-uc.a.run.app"

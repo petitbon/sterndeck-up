@@ -1,7 +1,5 @@
 "use strict";
 
-// [START functions_http_content]
-
 const fetch = require("node-fetch");
 const functions = require("@google-cloud/functions-framework");
 const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");
@@ -44,5 +42,3 @@ functions.http("completion", async (req, res) => {
     }
   }
 });
-
-// [END functions_http_content]
