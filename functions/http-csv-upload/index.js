@@ -25,7 +25,7 @@ async function getSecret(name) {
 
 const storage = new Storage();
 
-functions.http("upload", async (req, res) => {
+functions.http("csvUpload", async (req, res) => {
   const myPID = process.env.PROJECT_NAME;
 
   const my_key = await getSecret(
@@ -96,7 +96,7 @@ functions.http("upload", async (req, res) => {
         fs.createReadStream(uploads[file]),
         "fine-tune"
       );
-      console.log(oai_response.data);
+      //  console.log(oai_response.data);
       const trainingFile = oai_response.data;
       const bucket = `${myPID}.appspot.com`;
       const path = `training-files/${fields.user_uid}/${fields.model_id}/`;

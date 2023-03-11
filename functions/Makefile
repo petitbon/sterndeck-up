@@ -1,17 +1,21 @@
-make-event-finetune-create:
-	gcloud functions deploy event-finetune-create --trigger-event "providers/cloud.firestore/eventTypes/document.create" --trigger-resource=projects/sterndeck-4/databases/\(default\)/documents/models/{userUid}/list/{modelId}/fine_tunes/{fineTuneId} --entry-point "publishFinetune" --runtime "nodejs18" --source "./event-finetune-create"
+make-event-fine-tunes-create:
+	gcloud functions deploy event-fine-tunes-create  --source "./event-fine-tunes-create" --trigger-event "providers/cloud.firestore/eventTypes/document.create" --trigger-resource=projects/sterndeck-4/databases/\(default\)/documents/models/{userUid}/list/{modelId}/training_files/{trainingFileId}/fine_tunes/{fineTuneId} --entry-point "fineTunesCreate" --runtime "nodejs18"
 
 make-event-user-create:
-	gcloud functions deploy event-user-create --trigger-event "providers/firebase.auth/eventTypes/user.create" --entry-point "storeNewUser" --runtime "nodejs18" --source "./event-user-create"
+	gcloud functions deploy event-user-create --source "./event-user-create" --trigger-event "providers/firebase.auth/eventTypes/user.create" --entry-point "userCreate" --runtime "nodejs18" 
 
 make-http-completion:
 	gcloud functions deploy http-completion --gen2 --trigger-http --source=./http-completion --entry-point=completion  --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_ID=117456302577
 
 make-http-csv-upload:
-	gcloud functions deploy http-csv-upload --gen2 --trigger-http --source=./http-csv-upload --entry-point=upload --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_NAME=sterndeck-4
+	gcloud functions deploy http-csv-upload --gen2 --trigger-http --source=./http-csv-upload --entry-point=csvUpload --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_NAME=sterndeck-4
+
+make-http-fine-tunes-cancel:
+	gcloud functions deploy http-fine-tunes-cancel --gen2 --trigger-http --source "./http-fine-tunes-cancel" --entry-point "fineTunesCancel" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
+
+make-http-fine-tunes-update:
+	gcloud functions deploy http-fine-tunes-update --gen2 --trigger-http --source "./http-fine-tunes-update" --entry-point "fineTunesUpdate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
 
 make-http-hello:
 	gcloud functions deploy http-hello --gen2 --trigger-http --source=./http-hello --entry-point=hello --runtime=nodejs18 --region=us-central1
 
-make-http-update-finetune:
-	gcloud functions deploy http-update-finetune --gen2 --trigger-http --source "./http-update-finetune" --entry-point "updateFinetune" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577

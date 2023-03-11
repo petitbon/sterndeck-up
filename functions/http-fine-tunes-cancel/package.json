@@ -1,0 +1,20 @@
+{
+  "name": "fine-tunes",
+  "version": "0.0.1",
+  "private": true,
+  "author": "you",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "test": "curl -m 70 -X POST localhost:8080 -H 'Content-Type: application/json' -d {'fine_tune_id': 'ft-9uOEnuMJxPK9RAWpzbLyfYco', 'path': 'models/DiX8jT5TULPSvXemhbX8nHROXfi2/list/68778cf9a4744b15a00c/training_files/file-fIP3apUdD9Lf287aEZm9nh03/fine_tunes'}",
+    "start": "functions-framework --target=fineTunesCancel"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.3",
+    "@google-cloud/secret-manager": "^4.2.0",
+    "firebase-admin": "^10.0.2",
+    "openai": "^3.2.1"
+  }
+}

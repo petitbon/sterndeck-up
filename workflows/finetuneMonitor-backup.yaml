@@ -26,18 +26,16 @@ main:
           - init_variables:
               assign:
                 - latest_message: ${response.body.data[len(response.body.data) - 1].message}
+                - path: ${"models/" + message.userUid + "/list/" + message.modelId + "/training_files/"+ message.trainingFileId +  "/events/" + message.fineTuneId}
           - write_to_firestore:
-              call: http.post
+              call: googleapis.firestore.v1.projects.databases.documents.patch
               args:
-                url: https://http-fine-tunes-update-i5rcwtaovq-uc.a.run.app
-                headers:
-                  Content-Type: "application/json"
+                name: ${"projects/sterndeck-4/databases/(default)/documents/" + path }
                 body:
-                  finetuneid: ${message.fineTuneId}
-                  collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/training_files/" + message.trainingFileId + "/fine_tunes"}
-                auth:
-                  type: OIDC
-              result: the_result
+                  fields:
+                    latestMessage:
+                      stringValue: ${response.body.data[len(response.body.data) - 1].message}
+              result: write_result
     - switch_and_repeat:
         switch:
           - condition: ${latest_message == "Fine-tune succeeded"}
@@ -45,7 +43,7 @@ main:
               - finishit:
                   call: http.post
                   args:
-                    url: https://http-fine-tunes-update-i5rcwtaovq-uc.a.run.app
+                    url: https://http-update-finetune-i5rcwtaovq-uc.a.run.app
                     headers:
                       Content-Type: "application/json"
                     body:
@@ -55,10 +53,6 @@ main:
                       type: OIDC
                   result: the_result
               - fin:
-                  return: '${"finetuneid: " + message.fineTuneId + " latestmessage: " +  latest_message }'
-          - condition: ${latest_message == "Fine-tune cancelled"}
-            steps:
-              - exit:
                   return: '${"finetuneid: " + message.fineTuneId + " latestmessage: " +  latest_message }'
     - wait:
         call: sys.sleep

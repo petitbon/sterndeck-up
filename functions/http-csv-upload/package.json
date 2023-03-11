@@ -6,7 +6,7 @@
   "scripts": {
     "test": "curl -F 'model_id=123' -F 'user_uid=abc' -F 'file_id=file1a2b3c' -F 'upload=@file.csv' localhost:8080 -H 'content-type: multipart/form-data'",
     "prod-test": "curl -F 'model_id=123' -F 'user_uid=abc' -F 'file_id=file1a2b3c' -F 'upload=@file.csv' https://http-csv-upload-i5rcwtaovq-uc.a.run.app -H 'content-type: multipart/form-data' -H 'Authorization: bearer $(gcloud auth print-identity-token)'",
-    "start": "functions-framework --target=upload"
+    "start": "functions-framework --target=csvUpload"
   },
   "author": "petitbon@gmail.com",
   "license": "ISC",

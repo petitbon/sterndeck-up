@@ -40,6 +40,26 @@ paths:
           description: "completion"
       x-google-backend:
         address: "https://http-completion-i5rcwtaovq-uc.a.run.app"
+  /api/v1/fine-tunes-cancel:
+    post:
+      summary: "fine-tunes-cancel"
+      operationId: fine-tunes-cancel
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              fine_tune_id:
+                type: string
+              path:
+                type: string
+      responses:
+        200:
+          description: "fine-tunes-cancel"
+      x-google-backend:
+        address: "https://http-fine-tunes-cancel-i5rcwtaovq-uc.a.run.app"
   /api/v1/upload:
     post:
       summary: "upload"
