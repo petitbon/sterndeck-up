@@ -69,7 +69,7 @@ functions.http("csvUpload", async (req, res) => {
 
     const transform = csv.transform((row, cb) => {
       var obj = {};
-      obj.prompt = row[0] + " ->";
+      obj.prompt = row[0] + " \n\n###\n\n";
       obj.completion = " " + row[1] + " END";
       result = JSON.stringify(obj) + EOL;
       cb(null, result);
@@ -96,7 +96,6 @@ functions.http("csvUpload", async (req, res) => {
         fs.createReadStream(uploads[file]),
         "fine-tune"
       );
-      //  console.log(oai_response.data);
       const trainingFile = oai_response.data;
       const bucket = `${myPID}.appspot.com`;
       const path = `training-files/${fields.user_uid}/${fields.model_id}/`;
@@ -105,7 +104,7 @@ functions.http("csvUpload", async (req, res) => {
         destination: fullfilepath,
       };
       await storage.bucket(bucket).upload(uploads[file], options);
-      const tf = { ...trainingFile, path: fullfilepath };
+      const tf = { ...trainingFile, path: fullfilepath, visible: true };
       const docpath = `models/${fields.user_uid}/list/${fields.model_id}/training_files`;
       await firestore.collection(docpath).doc(tf.id).set(tf);
       fs.unlinkSync(uploads[file]);

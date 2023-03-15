@@ -14,15 +14,12 @@ async function getSecret(name) {
   return secretValue;
 }
 
-functions.http("completion", async (req, res) => {
+functions.http("fineTunesCreate", async (req, res) => {
   const myPID = process.env.PROJECT_ID;
-
   const my_key = await getSecret(
     `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
   );
-
   const myKEY = my_key || process.env.OPENAI_API_KEY;
-
   if (!myPID || !myKEY) {
     res.status(500).send(`Environment variables are not set.`);
     return;
@@ -32,9 +29,11 @@ functions.http("completion", async (req, res) => {
     apiKey: myKEY,
   });
 
-  const parsedOne = req.body.model.split(":");
-  const parsedTwo = parsedOne[2].split("-");
-  const use_case_id = parsedTwo[0];
+  const body = {
+    training_file_id: req.body.training_file_id,
+    path: req.body.path,
+    use_case_id: req.body.use_case_id,
+  };
 
   const firestore = firebase.firestore();
 
@@ -43,26 +42,38 @@ functions.http("completion", async (req, res) => {
       case "application/json":
         const use_case = await firestore
           .collection("use_cases")
-          .doc(use_case_id)
+          .doc(body.use_case_id)
           .get();
 
         const acase = use_case.data();
+        const hype = acase.hyper_parameters;
 
-        const body = {
-          model: req.body.model,
-          prompt: req.body.prompt + acase.prompt_separator,
-          stop: [acase.completion_separator],
-        };
-
-        //console.log(body.model);
-        //console.log(body.prompt);
-        //console.log(body.stop);
+        //console.log("model:", acase.model);
+        //console.log("n_epochs:", hype.n_epochs);
+        //console.log("learning_rate_multiplier:", hype.learning_rate_multiplier);
+        //console.log("prompt_loss_weight:", hype.prompt_loss_weight);
+        //console.log("trining_file_id:", body.training_file_id);
 
         const openai = new OpenAIApi(configuration);
-        const oai_response = await openai.createCompletion(body);
-        const completion = oai_response.data;
-        res.status(200).send(JSON.stringify(completion));
+        const oai_response = await openai.createFineTune({
+          training_file: body.training_file_id,
+          model: acase.model,
+          n_epochs: hype.n_epochs,
+          learning_rate_multiplier: hype.learning_rate_multiplier,
+          prompt_loss_weight: hype.prompt_loss_weight,
+          suffix: body.use_case_id,
+        });
+        const fine_tune = oai_response.data;
+        if (fine_tune.id) {
+          await firestore
+            .collection(body.path)
+            .doc(fine_tune.id)
+            .set(fine_tune);
+        }
+        res.status(200).send(JSON.stringify(fine_tune));
         break;
     }
+  } else {
+    res.status(404);
   }
 });
