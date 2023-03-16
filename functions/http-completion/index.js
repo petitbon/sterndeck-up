@@ -51,18 +51,27 @@ functions.http("completion", async (req, res) => {
         const body = {
           model: req.body.model,
           prompt: req.body.prompt + acase.prompt_separator,
+          temperature: acase.hyper_parameters.temperature,
           stop: [acase.completion_separator],
+          frequency_penalty: acase.hyper_parameters.frequency_penalty,
+          presence_penalty: acase.hyper_parameters.presence_penalty,
+          max_tokens: 100,
         };
 
-        //console.log(body.model);
-        //console.log(body.prompt);
-        //console.log(body.stop);
+        //console.log(JSON.stringify(body));
 
         const openai = new OpenAIApi(configuration);
-        const oai_response = await openai.createCompletion(body);
-        const completion = oai_response.data;
-        res.status(200).send(JSON.stringify(completion));
-        break;
+
+        try {
+          const oai_response = await openai.createCompletion(body);
+          const completion = oai_response.data;
+          res.status(200).send(JSON.stringify(completion));
+          break;
+        } catch (err) {
+          console.log(err);
+          res.status(500).send(`Internal error: ${err.message}`);
+          break;
+        }
     }
   }
 });

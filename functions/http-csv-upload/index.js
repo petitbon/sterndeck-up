@@ -26,7 +26,7 @@ async function getSecret(name) {
 const storage = new Storage();
 
 functions.http("csvUpload", async (req, res) => {
-  const myPID = process.env.PROJECT_NAME;
+  const myPID = process.env.PROJECT_NAME || "sterndeck-4";
 
   const my_key = await getSecret(
     `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
@@ -54,7 +54,7 @@ functions.http("csvUpload", async (req, res) => {
   const fields = {};
   const uploads = {};
 
-  busboy.on("field", (fieldname, val) => {
+  busboy.on("field", async (fieldname, val) => {
     fields[fieldname] = val;
   });
 
@@ -69,8 +69,8 @@ functions.http("csvUpload", async (req, res) => {
 
     const transform = csv.transform((row, cb) => {
       var obj = {};
-      obj.prompt = row[0] + " \n\n###\n\n";
-      obj.completion = " " + row[1] + " END";
+      obj.prompt = row[0] + "##>>";
+      obj.completion = " " + row[1] + "<<##";
       result = JSON.stringify(obj) + EOL;
       cb(null, result);
     });
