@@ -4,14 +4,13 @@ main:
     - init:
         assign:
           - project_id: ${sys.get_env("sterndeck-4")}
-          - secret_id: "OPENAI_API_KEY"
           - latest_message: ""
           - base64: ${base64.decode(event.data.message.data)}
           - message: ${json.decode(base64)}
     - access_secret:
         call: googleapis.secretmanager.v1.projects.secrets.versions.accessString
         args:
-          secret_id: ${secret_id}
+          secret_id: ${message.userUid}
           project_id: ${project_id}
         result: str_secret
     - waitandsee:
@@ -33,6 +32,7 @@ main:
                 headers:
                   Content-Type: "application/json"
                 body:
+                  user_uid: ${message.userUid}
                   finetuneid: ${message.fineTuneId}
                   collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/training_files/" + message.trainingFileId + "/fine_tunes"}
                 auth:
@@ -49,6 +49,7 @@ main:
                     headers:
                       Content-Type: "application/json"
                     body:
+                      user_uid: ${message.userUid}
                       finetuneid: ${message.fineTuneId}
                       collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/training_files/" + message.trainingFileId + "/fine_tunes"}
                     auth:

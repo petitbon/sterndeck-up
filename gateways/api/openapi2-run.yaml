@@ -20,6 +20,26 @@ securityDefinitions:
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
     x-google-audiences: "sterndeck-4"
 paths:
+  /api/v1/user-key:
+    post:
+      summary: "user-key"
+      operationId: user-key
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              user_uid:
+                type: string
+              secret:
+                type: string
+      responses:
+        200:
+          description: "user-key"
+      x-google-backend:
+        address: "https://http-user-secret-create-i5rcwtaovq-uc.a.run.app"
   /api/v1/fine-tunes-create:
     post:
       summary: "fine-tunes-create"
@@ -31,6 +51,8 @@ paths:
           schema:
             type: object
             properties:
+              user_uid:
+                type: string
               training_file_id:
                 type: string
               path:
@@ -40,26 +62,6 @@ paths:
           description: "fine-tunes-create"
       x-google-backend:
         address: "https://http-fine-tunes-create-i5rcwtaovq-uc.a.run.app"
-  /api/v1/completion:
-    post:
-      summary: "completion"
-      operationId: completion
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              model:
-                type: string
-              prompt:
-                type: string
-      responses:
-        200:
-          description: "completion"
-      x-google-backend:
-        address: "https://http-completion-i5rcwtaovq-uc.a.run.app"
   /api/v1/fine-tunes-cancel:
     post:
       summary: "fine-tunes-cancel"
@@ -71,6 +73,8 @@ paths:
           schema:
             type: object
             properties:
+              user_uid:
+                type: string
               fine_tune_id:
                 type: string
               path:

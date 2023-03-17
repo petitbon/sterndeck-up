@@ -22,3 +22,7 @@ make-http-fine-tunes-update:
 make-http-hello:
 	gcloud functions deploy http-hello --gen2 --trigger-http --source=./http-hello --entry-point=hello --runtime=nodejs18 --region=us-central1
 
+make-http-user-secret-create:
+	gcloud functions deploy http-user-secret-create --gen2 --trigger-http --source "./http-user-secret-create" --entry-point "userSecretCreate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
+
+

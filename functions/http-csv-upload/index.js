@@ -28,19 +28,10 @@ const storage = new Storage();
 functions.http("csvUpload", async (req, res) => {
   const myPID = process.env.PROJECT_NAME || "sterndeck-4";
 
-  const my_key = await getSecret(
-    `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
-  );
-  const myKEY = my_key || process.env.OPENAI_API_KEY;
-
-  if (!myPID || !myKEY) {
+  if (!myPID) {
     res.status(500).send(`Environment variables are not set.`);
     return;
   }
-
-  const configuration = new Configuration({
-    apiKey: myKEY,
-  });
 
   if (req.method !== "POST") {
     return res.status(405).end();
@@ -91,6 +82,17 @@ functions.http("csvUpload", async (req, res) => {
     await Promise.all(fileWrites);
 
     for (const file in uploads) {
+      const my_key = await getSecret(
+        `projects/${myPID}/secrets/${fields.user_uid}/versions/latest`
+      );
+      const myKEY = my_key || process.env.OPENAI_API_KEY;
+      if (!myKEY) {
+        res.status(500).send(`Environment variables are not set.`);
+        return;
+      }
+      const configuration = new Configuration({
+        apiKey: myKEY,
+      });
       const openai = new OpenAIApi(configuration);
       const oai_response = await openai.createFile(
         fs.createReadStream(uploads[file]),

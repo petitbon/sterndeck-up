@@ -16,9 +16,11 @@ async function getSecret(name) {
 
 functions.http("fineTunesCreate", async (req, res) => {
   const myPID = process.env.PROJECT_ID;
+
   const my_key = await getSecret(
-    `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
+    `projects/${myPID}/secrets/${req.body.user_uid}/versions/latest`
   );
+
   const myKEY = my_key || process.env.OPENAI_API_KEY;
   if (!myPID || !myKEY) {
     res.status(500).send(`Environment variables are not set.`);
