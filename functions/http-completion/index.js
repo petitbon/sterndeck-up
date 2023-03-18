@@ -17,8 +17,10 @@ async function getSecret(name) {
 functions.http("completion", async (req, res) => {
   const myPID = process.env.PROJECT_ID;
 
+  console.log(req.body);
+
   const my_key = await getSecret(
-    `projects/${myPID}/secrets/OPENAI_API_KEY/versions/1`
+    `projects/${myPID}/secrets/${req.body.user_uid}/versions/latest`
   );
 
   const myKEY = my_key || process.env.OPENAI_API_KEY;
@@ -34,7 +36,7 @@ functions.http("completion", async (req, res) => {
 
   const parsedOne = req.body.model.split(":");
   const parsedTwo = parsedOne[2].split("-");
-  const use_case_id = parsedTwo[0];
+  const use_case_id = parsedTwo[1];
 
   const firestore = firebase.firestore();
 
@@ -51,14 +53,12 @@ functions.http("completion", async (req, res) => {
         const body = {
           model: req.body.model,
           prompt: req.body.prompt + acase.prompt_separator,
-          temperature: acase.hyper_parameters.temperature,
+          temperature: acase.completion_parameters.temperature,
           stop: [acase.completion_separator],
-          frequency_penalty: acase.hyper_parameters.frequency_penalty,
-          presence_penalty: acase.hyper_parameters.presence_penalty,
-          max_tokens: 100,
+          frequency_penalty: acase.completion_parameters.frequency_penalty,
+          presence_penalty: acase.completion_parameters.presence_penalty,
+          max_tokens: 60,
         };
-
-        //console.log(JSON.stringify(body));
 
         const openai = new OpenAIApi(configuration);
 

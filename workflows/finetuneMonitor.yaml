@@ -32,6 +32,7 @@ main:
                 headers:
                   Content-Type: "application/json"
                 body:
+                  model_id: ${message.modelId}
                   user_uid: ${message.userUid}
                   finetuneid: ${message.fineTuneId}
                   collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/training_files/" + message.trainingFileId + "/fine_tunes"}
@@ -49,6 +50,7 @@ main:
                     headers:
                       Content-Type: "application/json"
                     body:
+                      model_id: ${message.modelId}
                       user_uid: ${message.userUid}
                       finetuneid: ${message.fineTuneId}
                       collection: ${"models/" + message.userUid + "/list/" + message.modelId + "/training_files/" + message.trainingFileId + "/fine_tunes"}

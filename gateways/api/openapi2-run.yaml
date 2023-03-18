@@ -20,6 +20,28 @@ securityDefinitions:
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
     x-google-audiences: "sterndeck-4"
 paths:
+  /api/v1/completion:
+    post:
+      summary: "completion"
+      operationId: completion
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              model:
+                type: string
+              prompt:
+                type: string
+              user_uid:
+                type: string
+      responses:
+        200:
+          description: "completion"
+      x-google-backend:
+        address: "https://http-completion-i5rcwtaovq-uc.a.run.app"
   /api/v1/user-key:
     post:
       summary: "user-key"

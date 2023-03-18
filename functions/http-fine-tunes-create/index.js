@@ -32,9 +32,12 @@ functions.http("fineTunesCreate", async (req, res) => {
   });
 
   const body = {
+    user_uid: req.body.user_uid,
+    model_id: req.body.model_id,
     training_file_id: req.body.training_file_id,
-    path: req.body.path,
     use_case_id: req.body.use_case_id,
+    path: `models/${req.body.user_uid}/list/${req.body.model_id}/training_files/${req.body.training_file_id}/fine_tunes`,
+    base_model: req.body.base_model,
   };
 
   const firestore = firebase.firestore();
@@ -59,11 +62,12 @@ functions.http("fineTunesCreate", async (req, res) => {
         const openai = new OpenAIApi(configuration);
         const oai_response = await openai.createFineTune({
           training_file: body.training_file_id,
-          model: acase.model,
+          model: body.base_model,
           n_epochs: hype.n_epochs,
           learning_rate_multiplier: hype.learning_rate_multiplier,
           prompt_loss_weight: hype.prompt_loss_weight,
-          suffix: body.use_case_id,
+          suffix:
+            "sterndeck-" + body.use_case_id + "-" + body.model_id.slice(0, 5),
         });
         const fine_tune = oai_response.data;
         if (fine_tune.id) {

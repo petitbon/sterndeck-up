@@ -50,6 +50,17 @@ functions.http("fineTunesUpdate", async (req, res) => {
           .doc(req.body.finetuneid)
           .set(updated_finetune);
 
+        if (updated_finetune.fine_tuned_model) {
+          await firestore
+            .collection(
+              `models/${req.body.user_uid}/list/${req.body.model_id}/live_models`
+            )
+            .doc(updated_finetune.fine_tuned_model)
+            .set({
+              id: updated_finetune.fine_tuned_model,
+              createdAt: new Date(),
+            });
+        }
         break;
     }
 
