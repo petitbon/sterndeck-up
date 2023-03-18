@@ -13,6 +13,7 @@ make-http-csv-upload:
 make-http-fine-tunes-cancel:
 	gcloud functions deploy http-fine-tunes-cancel --gen2 --trigger-http --source "./http-fine-tunes-cancel" --entry-point "fineTunesCancel" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
 
+
 make-http-fine-tunes-create:
 	gcloud functions deploy http-fine-tunes-create --gen2 --trigger-http --source "./http-fine-tunes-create" --entry-point "fineTunesCreate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
 
@@ -21,6 +22,10 @@ make-http-fine-tunes-update:
 
 make-http-hello:
 	gcloud functions deploy http-hello --gen2 --trigger-http --source=./http-hello --entry-point=hello --runtime=nodejs18 --region=us-central1
+
+make-http-models-feedback:
+	gcloud functions deploy http-models-feedback --gen2 --trigger-http --source "./http-models-feedback" --entry-point "modelsFeedback" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
+
 
 make-http-user-secret-create:
 	gcloud functions deploy http-user-secret-create --gen2 --trigger-http --source "./http-user-secret-create" --entry-point "userSecretCreate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
