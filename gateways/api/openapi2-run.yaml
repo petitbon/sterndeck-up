@@ -3,14 +3,15 @@ info:
   title: sterndeck-4
   version: "1.0.0"
 host: api-dev.sterndeck.com
+x-google-endpoints:
+  - name: "api-dev.sterndeck.com"
+    allowCors: True
 schemes:
   - https
 produces:
   - application/json
 consumes:
   - application/json
-security:
-  - firebase: []
 securityDefinitions:
   firebase:
     authorizationUrl: ""
@@ -21,9 +22,21 @@ securityDefinitions:
     x-google-audiences: "sterndeck-4"
 paths:
   /api/v1/completion:
+    options:
+      summary: CORS pre-flight
+      operationId: completion-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
     post:
       summary: "completion"
       operationId: completion
+      security:
+        - firebase: []
       parameters:
         - name: body
           in: body
@@ -43,9 +56,21 @@ paths:
       x-google-backend:
         address: "https://http-completion-i5rcwtaovq-uc.a.run.app"
   /api/v1/user-key:
+    options:
+      summary: CORS pre-flight
+      operationId: user-key-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
     post:
       summary: "user-key"
       operationId: user-key
+      security:
+        - firebase: []
       parameters:
         - name: body
           in: body
@@ -63,9 +88,21 @@ paths:
       x-google-backend:
         address: "https://http-user-secret-create-i5rcwtaovq-uc.a.run.app"
   /api/v1/fine-tunes-create:
+    options:
+      summary: CORS pre-flight
+      operationId: fine-tunes-create-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
     post:
       summary: "fine-tunes-create"
-      operationId: fine-tunes-createl
+      operationId: fine-tunes-create
+      security:
+        - firebase: []
       parameters:
         - name: body
           in: body
@@ -85,9 +122,21 @@ paths:
       x-google-backend:
         address: "https://http-fine-tunes-create-i5rcwtaovq-uc.a.run.app"
   /api/v1/fine-tunes-cancel:
+    options:
+      summary: CORS pre-flight
+      operationId: fine-tunes-cancel-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
     post:
       summary: "fine-tunes-cancel"
       operationId: fine-tunes-cancel
+      security:
+        - firebase: []
       parameters:
         - name: body
           in: body
@@ -107,9 +156,21 @@ paths:
       x-google-backend:
         address: "https://http-fine-tunes-cancel-i5rcwtaovq-uc.a.run.app"
   /api/v1/upload:
+    options:
+      summary: CORS pre-flight
+      operationId: upload-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
     post:
       summary: "upload"
       operationId: upload
+      security:
+        - firebase: []
       consumes:
         - multipart/form-data
       parameters:
@@ -134,3 +195,37 @@ paths:
           description: "upload"
       x-google-backend:
         address: "https://http-csv-upload-i5rcwtaovq-uc.a.run.app"
+  /api/v1/models-feedback:
+    options:
+      summary: CORS pre-flight
+      operationId: models-feedback-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: "models-feedback"
+      operationId: models-feedback
+      security:
+        - firebase: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              model:
+                type: string
+              prompt:
+                type: string
+              completion:
+                type: string
+      responses:
+        200:
+          description: "models-feedback"
+      x-google-backend:
+        address: "https://http-models-feedback-i5rcwtaovq-uc.a.run.app"

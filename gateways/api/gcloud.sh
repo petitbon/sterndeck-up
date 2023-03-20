@@ -21,9 +21,14 @@ gcloud compute target-https-proxies create https-proxy-sterndeck-api-4 --ssl-cer
 gcloud compute forwarding-rules create forwarding-rule-sterndeck-api-4 --target-https-proxy=https-proxy-sterndeck-api-4 --global --ports=443
 
 
+# HEADERS FOR LOAD BALANCER
+gcloud compute backend-services update backend-service-sterndeck-api-4 --global --custom-response-header='Access-Control-Allow-Origin: *' --custom-response-header='Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' --custom-response-header='Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization' --custom-response-header='Access-Control-Expose-Headers: Content-Length,Content-Range'--custom-response-header='Access-Control-Max-Age: 1728000'
+
+
+
 # API KEYS
 gcloud services enable sterndeck-api-4-1gtdardn9kai6.apigateway.sterndeck-4.cloud.goog
 
 
 ## UPDATE CONFIGS
-gcloud api-gateway api-configs create sterndeck-api-4-v012 --api=sterndeck-api-4 --openapi-spec=openapi2-run.yaml --project=sterndeck-4 --backend-auth-service-account=api-gateway@sterndeck-4.iam.gserviceaccount.com && gcloud api-gateway gateways update sterndeck-api-gateway-4 --api=sterndeck-api-4 --api-config=sterndeck-api-4-v012 --location=us-central1
+gcloud api-gateway api-configs create sterndeck-api-4-v020 --api=sterndeck-api-4 --openapi-spec=openapi2-run.yaml --project=sterndeck-4 --backend-auth-service-account=api-gateway@sterndeck-4.iam.gserviceaccount.com && gcloud api-gateway gateways update sterndeck-api-gateway-4 --api=sterndeck-api-4 --api-config=sterndeck-api-4-v020 --location=us-central1
