@@ -1,4 +1,4 @@
-openapi: 3.0.0
+swagger: "2.0"
 info:
   title: sterndeck-4
   description: A simple API to manage a list of tasks
@@ -27,8 +27,7 @@ paths:
     options:
       summary: CORS pre-flight
       operationId: feedback-cors
-      security:
-        - NONE: []
+      security: []
       x-google-backend:
         address: https://http-hello-i5rcwtaovq-uc.a.run.app
       responses:
