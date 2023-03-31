@@ -31,4 +31,4 @@ gcloud services enable sterndeck-api-4-1gtdardn9kai6.apigateway.sterndeck-4.clou
 
 
 ## UPDATE CONFIGS
-gcloud api-gateway api-configs create sterndeck-api-4-v020 --api=sterndeck-api-4 --openapi-spec=openapi2-run.yaml --project=sterndeck-4 --backend-auth-service-account=api-gateway@sterndeck-4.iam.gserviceaccount.com && gcloud api-gateway gateways update sterndeck-api-gateway-4 --api=sterndeck-api-4 --api-config=sterndeck-api-4-v020 --location=us-central1
+gcloud api-gateway api-configs create sterndeck-api-4-v021 --api=sterndeck-api-4 --openapi-spec=openapi2-run.yaml --project=sterndeck-4 --backend-auth-service-account=api-gateway@sterndeck-4.iam.gserviceaccount.com && gcloud api-gateway gateways update sterndeck-api-gateway-4 --api=sterndeck-api-4 --api-config=sterndeck-api-4-v021 --location=us-central1

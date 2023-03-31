@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: sterndeck-4
+  description: A simple API to manage a list of tasks
+  version: 1.0.0
+servers:
+  - url: "https://dev-api.sterndeck.com"
+x-google-endpoints:
+  - name: "api-dev.sterndeck.com"
+    allowCors: True
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+securityDefinitions:
+  speakeasy_api_key:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://app.speakeasyapi.dev/v1/auth/oauth/clftpkq5b00003b6cfhekkcbu"
+    x-google-jwks_uri: "https://app.speakeasyapi.dev/v1/auth/oauth/clftpkq5b00003b6cfhekkcbu/.well-known/jwks.json"
+    x-google-audiences: "sterndeck"
+paths:
+  /api/v1/feedback:
+    options:
+      summary: CORS pre-flight
+      operationId: feedback-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: "feedback"
+      operationId: feedback
+      security:
+        - speakeasy_api_key: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              model:
+                type: string
+              prompt:
+                type: string
+              completion:
+                type: string
+      responses:
+        "200":
+          description: "feedback"
+      x-google-backend:
+        address: "https://http-models-feedback-i5rcwtaovq-uc.a.run.app"

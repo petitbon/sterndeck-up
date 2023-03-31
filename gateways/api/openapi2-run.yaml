@@ -20,6 +20,13 @@ securityDefinitions:
     x-google-issuer: "https://securetoken.google.com/sterndeck-4"
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
     x-google-audiences: "sterndeck-4"
+  speakeasy_api_key:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://app.speakeasyapi.dev/v1/auth/oauth/clftpkq5b00003b6cfhekkcbu"
+    x-google-jwks_uri: "https://app.speakeasyapi.dev/v1/auth/oauth/clftpkq5b00003b6cfhekkcbu/.well-known/jwks.json"
+    x-google-audiences: "sterndeck"
 paths:
   /api/v1/completion:
     options:
@@ -195,10 +202,10 @@ paths:
           description: "upload"
       x-google-backend:
         address: "https://http-csv-upload-i5rcwtaovq-uc.a.run.app"
-  /api/v1/models-feedback:
+  /api/v1/feedback:
     options:
       summary: CORS pre-flight
-      operationId: models-feedback-cors
+      operationId: feedback-cors
       security:
         - NONE: []
       x-google-backend:
@@ -207,9 +214,10 @@ paths:
         "200":
           description: OK
     post:
-      summary: "models-feedback"
-      operationId: models-feedback
+      summary: "feedback"
+      operationId: feedback
       security:
+        - speakeasy_api_key: []
         - firebase: []
       parameters:
         - name: body
@@ -226,6 +234,6 @@ paths:
                 type: string
       responses:
         200:
-          description: "models-feedback"
+          description: "feedback"
       x-google-backend:
         address: "https://http-models-feedback-i5rcwtaovq-uc.a.run.app"
