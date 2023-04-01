@@ -13,8 +13,11 @@ if (!myPID) {
 }
 
 functions.http("modelsFeedback", async (req, res) => {
-  const datasetId = "models";
-  const tableId = "feedbacks";
+  const datasetId = "sterndeck-feedback";
+  const tableId = "table-feedback";
+
+  console.log(req);
+  console.log(req.body);
 
   const body = {
     model: req.body.model,
@@ -22,19 +25,26 @@ functions.http("modelsFeedback", async (req, res) => {
     completion: req.body.completion,
   };
 
+  console.log(body);
+
   if (req.method === "POST") {
     switch (req.get("content-type")) {
       case "application/json":
+        /* 
         try {
           const doit = await bigquery
             .dataset(datasetId)
             .table(tableId)
-            .insert(body);
+            .insert(rowData);
+          console.log(doit);
           res.status(200).send("Data inserted successfully.");
         } catch (error) {
           console.error("Error inserting data:", error);
           res.status(500).send("Error inserting data.");
         }
+        */
+
+        res.status(200).send("OK");
         break;
     }
   }

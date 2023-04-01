@@ -26,10 +26,8 @@ make-http-hello:
 make-http-models-feedback:
 	gcloud functions deploy http-models-feedback --gen2 --trigger-http --source "./http-models-feedback" --entry-point "modelsFeedback" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
 
-
 make-http-models-feedback-collect:
 	gcloud functions deploy http-models-feedback-collect --gen2 --trigger-http --source "./http-models-feedback-collect" --entry-point "feedbackCollect" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
-
 
 make-http-user-secret-create:
 	gcloud functions deploy http-user-secret-create --gen2 --trigger-http --source "./http-user-secret-create" --entry-point "userSecretCreate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577

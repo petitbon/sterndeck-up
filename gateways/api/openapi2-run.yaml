@@ -35,7 +35,7 @@ paths:
       security:
         - NONE: []
       x-google-backend:
-        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
       responses:
         "200":
           description: OK
@@ -69,7 +69,7 @@ paths:
       security:
         - NONE: []
       x-google-backend:
-        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
       responses:
         "200":
           description: OK
@@ -101,7 +101,7 @@ paths:
       security:
         - NONE: []
       x-google-backend:
-        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
       responses:
         "200":
           description: OK
@@ -135,7 +135,7 @@ paths:
       security:
         - NONE: []
       x-google-backend:
-        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
       responses:
         "200":
           description: OK
@@ -169,7 +169,7 @@ paths:
       security:
         - NONE: []
       x-google-backend:
-        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
       responses:
         "200":
           description: OK
@@ -202,14 +202,14 @@ paths:
           description: "upload"
       x-google-backend:
         address: "https://http-csv-upload-i5rcwtaovq-uc.a.run.app"
-  /api/v1/feedback:
+  /api/v1/models-feedback:
     options:
       summary: CORS pre-flight
       operationId: feedback-cors
       security:
         - NONE: []
       x-google-backend:
-        address: https://http-hello-i5rcwtaovq-uc.a.run.app
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
       responses:
         "200":
           description: OK
