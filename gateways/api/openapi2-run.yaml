@@ -20,14 +20,87 @@ securityDefinitions:
     x-google-issuer: "https://securetoken.google.com/sterndeck-4"
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
     x-google-audiences: "sterndeck-4"
-  speakeasy_api_key:
+  sterndeck_api_key:
     authorizationUrl: ""
     flow: "implicit"
     type: "oauth2"
-    x-google-issuer: "https://app.speakeasyapi.dev/v1/auth/oauth/clftpkq5b00003b6cfhekkcbu"
-    x-google-jwks_uri: "https://app.speakeasyapi.dev/v1/auth/oauth/clftpkq5b00003b6cfhekkcbu/.well-known/jwks.json"
+    x-google-issuer: "https://api-dev.sterndeck.com/api/v1/auth-validate"
+    x-google-jwks_uri: "https://api-dev.sterndeck.com/api/v1/auth-jwks"
     x-google-audiences: "sterndeck"
 paths:
+  /api/v1/auth-validate:
+    options:
+      summary: CORS pre-flight
+      operationId: auth-validate-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: "auth-validate"
+      operationId: auth-validate
+      security:
+        - NONE: []
+      responses:
+        200:
+          description: "auth-validate"
+      x-google-backend:
+        address: "https://http-auth-validate-i5rcwtaovq-uc.a.run.app"
+  /api/v1/auth-jwks:
+    options:
+      summary: CORS pre-flight
+      operationId: auth-jwks-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: "auth-jwks"
+      operationId: auth-jwks
+      security:
+        - NONE: []
+      responses:
+        200:
+          description: "auth-jwks"
+      x-google-backend:
+        address: "https://http-auth-jwks-i5rcwtaovq-uc.a.run.app"
+  /api/v1/auth-generate:
+    options:
+      summary: CORS pre-flight
+      operationId: auth-generate-cors
+      security:
+        - NONE: []
+      x-google-backend:
+        address: "https://http-hello-i5rcwtaovq-uc.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: "auth-generate"
+      operationId: auth-generate
+      security:
+        - firebase: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              user_uid:
+                type: string
+      responses:
+        200:
+          description: "auth-generate"
+      x-google-backend:
+        address: "https://http-auth-generate-i5rcwtaovq-uc.a.run.app"
+
   /api/v1/completion:
     options:
       summary: CORS pre-flight
@@ -217,7 +290,7 @@ paths:
       summary: "feedback"
       operationId: feedback
       security:
-        - speakeasy_api_key: []
+        - sterndeck_api_key: []
         - firebase: []
       parameters:
         - name: body

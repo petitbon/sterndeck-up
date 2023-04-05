@@ -4,6 +4,15 @@ make-event-fine-tunes-create:
 make-event-user-create:
 	gcloud functions deploy event-user-create --source "./event-user-create" --trigger-event "providers/firebase.auth/eventTypes/user.create" --entry-point "userCreate" --runtime "nodejs18" 
 
+make-http-auth-generate:
+	gcloud functions deploy http-auth-generate --gen2 --trigger-http --source "./http-auth-generate" --entry-point "authGenerate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
+
+make-http-auth-jwks:
+	gcloud functions deploy http-auth-jwks --gen2 --trigger-http --source "./http-auth-jwks" --entry-point "authJWKS" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
+
+make-http-auth-validate:
+	gcloud functions deploy http-auth-validate --gen2 --trigger-http --source "./http-auth-validate" --entry-point "authValidate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
+
 make-http-completion:
 	gcloud functions deploy http-completion --gen2 --trigger-http --source=./http-completion --entry-point=completion  --runtime=nodejs18 --region=us-central1 --set-env-vars PROJECT_ID=117456302577
 
@@ -12,7 +21,6 @@ make-http-csv-upload:
 
 make-http-fine-tunes-cancel:
 	gcloud functions deploy http-fine-tunes-cancel --gen2 --trigger-http --source "./http-fine-tunes-cancel" --entry-point "fineTunesCancel" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577
-
 
 make-http-fine-tunes-create:
 	gcloud functions deploy http-fine-tunes-create --gen2 --trigger-http --source "./http-fine-tunes-create" --entry-point "fineTunesCreate" --runtime "nodejs18" --set-env-vars PROJECT_ID=117456302577

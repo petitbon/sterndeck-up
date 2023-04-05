@@ -20,6 +20,7 @@ functions.http("modelsFeedback", async (req, res) => {
     model: req.body.model,
     prompt: req.body.prompt,
     completion: req.body.completion,
+    timestamp: "AUTO",
   };
 
   if (req.method === "POST") {
